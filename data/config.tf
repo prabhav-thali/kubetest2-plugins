@@ -1,7 +1,3 @@
-variable "cluster_name" {
-  description = "K8s cluster name"
-}
-
 variable "release_marker" {
   description = "Kubernetes release marker"
   default = "ci/latest"
