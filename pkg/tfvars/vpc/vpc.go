@@ -7,7 +7,7 @@ type TFVars struct {
 	Region        string  `json:"region"`
 	Zone          string  `json:"zone"`
 	ResourceGroup string  `json:"resource_group"`
-	NodeImageName string  `json:"image_name"`
+	NodeImageName string  `json:"node_image"`
 	NodeProfile   string  `json:"node_profile"`
 	Nodes         int	  `json:"nodes"`
 	ContVersion   string  `json:"cont_version"`
