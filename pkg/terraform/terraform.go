@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 
 	"github.com/pkg/errors"
-	"github.com/ppc64le-cloud/kubetest2-plugins/data"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/terraform/exec"
+	"github.com/prabhav-thali/kubetest2-plugins/data"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/terraform/exec"
 )
 
 const (

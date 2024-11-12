@@ -6,11 +6,11 @@ import (
 
 	"k8s.io/klog/v2"
 
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/build"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/build"
 )
 
 func (d *deployer) Build() error {
-	klog.V(1).Info("PowerVS deployer starting Build()")
+	klog.V(1).Info("VPC deployer starting Build()")
 
 	if err := d.init(); err != nil {
 		return fmt.Errorf("build failed to init: %s", err)

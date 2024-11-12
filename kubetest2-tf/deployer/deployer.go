@@ -24,13 +24,13 @@ import (
 	"sigs.k8s.io/kubetest2/pkg/artifacts"
 	"sigs.k8s.io/kubetest2/pkg/types"
 
-	"github.com/ppc64le-cloud/kubetest2-plugins/kubetest2-tf/deployer/options"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/ansible"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/build"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/providers"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/providers/common"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/providers/powervs"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/terraform"
+	"github.com/prabhav-thali/kubetest2-plugins/kubetest2-tf/deployer/options"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/ansible"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/build"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/providers"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/providers/common"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/providers/vpc"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/terraform"
 
 	"sigs.k8s.io/kubetest2/pkg/metadata"
 )
@@ -103,7 +103,7 @@ func (d *deployer) initialize() error {
 	if err := d.checkDependencies(); err != nil {
 		return err
 	}
-	d.provider = powervs.PowerVSProvider
+	d.provider = vpc.VPCProvider
 	common.CommonProvider.Initialize()
 	d.tmpDir = common.CommonProvider.ClusterName
 	if _, err := os.Stat(d.tmpDir); os.IsNotExist(err) {
@@ -128,7 +128,7 @@ func New(opts types.Options) (types.Deployer, *pflag.FlagSet) {
 				Builder:         &build.NoopBuilder{},
 				Stager:          &build.NoopStager{},
 				Strategy:        "make",
-				TargetBuildArch: "linux/ppc64le",
+				TargetBuildArch: "linux/s390x",
 			},
 		},
 		RetryOnTfFailure: 1,
@@ -149,7 +149,7 @@ func New(opts types.Options) (types.Deployer, *pflag.FlagSet) {
 func bindFlags(d *deployer) *pflag.FlagSet {
 	flags := pflag.NewFlagSet(Name, pflag.ContinueOnError)
 	common.CommonProvider.BindFlags(flags)
-	powervs.PowerVSProvider.BindFlags(flags)
+	vpc.VPCProvider.BindFlags(flags)
 
 	return flags
 }
@@ -170,8 +170,8 @@ func (d *deployer) Up() error {
 	}
 
 	for i := 0; i <= d.RetryOnTfFailure; i++ {
-		path, err := terraform.Apply(d.tmpDir, "powervs", d.AutoApprove)
-		op, oerr := terraform.Output(d.tmpDir, "powervs")
+		path, err := terraform.Apply(d.tmpDir, "vpc", d.AutoApprove)
+		op, oerr := terraform.Output(d.tmpDir, "vpc")
 		if err != nil {
 			if i == d.RetryOnTfFailure {
 				fmt.Printf("terraform.Output: %s\nterraform.Output error: %v\n", op, oerr)
@@ -192,7 +192,7 @@ func (d *deployer) Up() error {
 	inventory := AnsibleInventory{}
 	for _, machineType := range []string{"Masters", "Workers"} {
 		var tmp []interface{}
-		op, err := terraform.Output(d.tmpDir, "powervs", "-json", strings.ToLower(machineType))
+		op, err := terraform.Output(d.tmpDir, "vpc", "-json", strings.ToLower(machineType))
 
 		if err != nil {
 			return fmt.Errorf("terraform.Output failed: %v", err)
@@ -312,7 +312,7 @@ func (d *deployer) Down() error {
 	if err := d.init(); err != nil {
 		return fmt.Errorf("down failed to init: %s", err)
 	}
-	err := terraform.Destroy(d.tmpDir, "powervs", d.AutoApprove)
+	err := terraform.Destroy(d.tmpDir, "vpc", d.AutoApprove)
 	if err != nil {
 		if common.CommonProvider.IgnoreDestroy {
 			klog.Infof("terraform.Destroy failed: %v", err)

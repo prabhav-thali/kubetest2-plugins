@@ -9,7 +9,7 @@ import (
 
 	"k8s.io/klog/v2"
 
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/providers/common"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/providers/common"
 )
 
 var commandFilename = map[string]string{
@@ -61,7 +61,7 @@ func (d *deployer) DumpClusterLogs() error {
 
 	// Todo: Include provider specific logic in this section. (Includes node level information/CRI/Services, etc.)
 	for _, machineIP := range d.machineIPs {
-		klog.Infof("Collecting node level information from PowerVS instance %s", machineIP)
+		klog.Infof("Collecting node level information from VSI instance %s", machineIP)
 		for logFile, command := range commandFilename {
 			stdOut.Reset()
 			stdErr.Reset()

@@ -7,9 +7,9 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/providers"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/tfvars"
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/utils"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/providers"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/tfvars"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/utils"
 	"github.com/spf13/pflag"
 
 	bootstraputil "k8s.io/cluster-bootstrap/token/util"

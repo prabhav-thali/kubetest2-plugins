@@ -1,7 +1,7 @@
 package options
 
 import (
-	"github.com/ppc64le-cloud/kubetest2-plugins/pkg/build"
+	"github.com/prabhav-thali/kubetest2-plugins/pkg/build"
 )
 
 type BuildOptions struct {

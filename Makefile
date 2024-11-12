@@ -14,7 +14,7 @@ INSTALL_DIR?=$(shell $(REPO_ROOT)/hack/goinstalldir.sh)
 # the output binary name, overridden when cross compiling
 BINARY_NAME=kubetest2-tf
 BINARY_PATH=./kubetest2-tf
-BUILD_FLAGS=-trimpath -ldflags="-buildid= -X=github.com/ppc64le-cloud/kubetest2-plugins/kubetest2-tf/deployer.GitTag=$(COMMIT)"
+BUILD_FLAGS=-trimpath -ldflags="-buildid= -X=github.com/prabhav-thali/kubetest2-plugins/kubetest2-tf/deployer.GitTag=$(COMMIT)"
 # ==============================================================================
 
 install-deployer-tf:
