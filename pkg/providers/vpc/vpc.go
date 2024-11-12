@@ -59,7 +59,7 @@ func (p *Provider) BindFlags(flags *pflag.FlagSet) {
 		&p.ContVersion, "vpc-cont-version", "", "Image ID(command: ibmcloud containerd version)",
 	)
 	flags.StringVar(
-		&p.ContVersion, "vpc-cluster-name", "", "k8s cluster name",
+		&p.ClusterName, "vpc-cluster-name", "", "k8s cluster name",
 	)
 }
 
