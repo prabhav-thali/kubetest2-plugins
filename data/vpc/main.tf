@@ -75,12 +75,12 @@ module "nodes" {
 }
 
 resource "local_file" "inventory" {
-  content = templatefile("../ansible/inventory.tmpl",
+  content = templatefile("${path.module}/ansible/inventory.tmpl",
     {
       ip_addrs = [for k, w in module.nodes : w.public_ip],
     }
   )
-  filename = "../ansible/inventory"
+  filename = "${path.module}/ansible/inventory"
 }
 
 
