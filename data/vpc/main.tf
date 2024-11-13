@@ -66,48 +66,86 @@ resource "ibm_is_instance_template" "node_template" {
   }
 }
 
-module "nodes" {
+module "master" {
   source                    = "./node"
-  count                     = var.nodes
-  node_name                 = "${var.cluster_name}-node-${count.index}"
+  node_name                 = "${var.cluster_name}-master"
   node_instance_template_id = ibm_is_instance_template.node_template.id
   resource_group = data.ibm_resource_group.default_group.id
 }
 
-resource "local_file" "inventory" {
-  content = templatefile("${path.module}/ansible/inventory.tmpl",
-    {
-      ip_addrs = [for k, w in module.nodes : w.public_ip],
-    }
-  )
-  filename = "${path.module}/ansible/inventory"
+module "workers" {
+  source                    = "./node"
+  count                     = var.workers_count
+  node_name                 = "${var.cluster_name}-worker"
+  node_instance_template_id = ibm_is_instance_template.node_template.id
+  resource_group = data.ibm_resource_group.default_group.id
 }
 
-
-resource "null_resource" "ansible" {
-  triggers = {
-    inventory = resource.local_file.inventory.content
+resource "null_resource" "wait-for-master-completes" {
+  connection {
+    type = "ssh"
+    user = "root"
+    host = module.master.addresses[0][0].external_ip
+    private_key = file(var.ssh_private_key)
+    timeout = "20m"
   }
-  provisioner "local-exec" {
-    working_dir = "./ansible"
-    command     = "ansible-playbook -i inventory -u root containerd.yaml -e containerd_release_version=${var.containerd_version} -e kube_version=${var.kube_version}"
-  }
-}
-
-resource "null_resource" "kubeadm" {
-  depends_on = [
-    null_resource.ansible
-  ]
-  provisioner "local-exec" {
-    command = "./kube-init.sh ${module.nodes[0].private_ip}"
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status -w"
+    ]
   }
 }
 
-resource "null_resource" "label_nodes" {
-  depends_on = [
-    null_resource.kubeadm
-  ]
-  provisioner "local-exec" {
-    command = "./label-nodes.sh ${var.region} ${var.zone} ${local.subnet_id}"
+resource "null_resource" "wait-for-workers-completes" {
+  count = var.workers_count
+  connection {
+    type = "ssh"
+    user = "root"
+    host = module.workers.addresses[count.index][0].external_ip
+    private_key = file(var.ssh_private_key)
+    timeout = "15m"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "cloud-init status -w"
+    ]
   }
 }
+
+#resource "local_file" "inventory" {
+#  content = templatefile("${path.module}/k8s-ansible/inventory.tmpl",
+#    {
+#      ip_addrs = [for k, w in module.nodes : w.public_ip],
+#    }
+#  )
+#  filename = "${path.module}/ansible/inventory"
+#}
+
+
+#resource "null_resource" "ansible" {
+#  triggers = {
+#    inventory = resource.local_file.inventory.content
+#  }
+#  provisioner "local-exec" {
+#    working_dir = "./ansible"
+#    command     = "ansible-playbook -i inventory -u root containerd.yaml -e containerd_release_version=${var.containerd_version} -e kube_version=${var.kube_version}"
+#  }
+#}
+
+#resource "null_resource" "kubeadm" {
+#  depends_on = [
+#    null_resource.ansible
+#  ]
+#  provisioner "local-exec" {
+#    command = "./kube-init.sh ${module.nodes[0].private_ip}"
+#  }
+#}
+
+#resource "null_resource" "label_nodes" {
+#  depends_on = [
+#    null_resource.kubeadm
+#  ]
+#  provisioner "local-exec" {
+#    command = "./label-nodes.sh ${var.region} ${var.zone} ${local.subnet_id}"
+#  }
+#}

@@ -9,7 +9,6 @@ type TFVars struct {
 	ResourceGroup string  `json:"resource_group"`
 	NodeImageName string  `json:"node_image"`
 	NodeProfile   string  `json:"node_profile"`
-	Nodes         int	  `json:"nodes"`
 	ContVersion   string  `json:"cont_version"`
 	KubeVersion   string  `json:"kube_version"`
 	//DNSName       string  `json:"vpc_dns"`

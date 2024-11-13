@@ -24,7 +24,7 @@ variable "ssh_pub_key" {
 variable "vpc_name" {
   type        = string
   description = "(optional) Specify existing VPC name. If none is provided, it will create a new VPC named {cluster_name}-vpc"
-  default     = ""
+  default     = "lozk8s"
 }
 
 variable "subnet_name" {
@@ -45,11 +45,6 @@ variable "node_profile" {
   default = "bz2-2x8"
 }
 
-variable "nodes" {
-  type    = number
-  default = 2
-}
-
 variable "region" {
   default = "jp-tok"
 }
@@ -59,9 +54,9 @@ variable "zone" {
 }
 
 variable "containerd_version" {
-  default = "1.7.0-beta.3"
+  default = "1.7.0"
 }
 
 variable "kube_version" {
-  default = "1.28"
+  default = "1.30"
 }
