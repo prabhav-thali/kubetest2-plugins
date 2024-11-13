@@ -49,9 +49,6 @@ func (p *Provider) BindFlags(flags *pflag.FlagSet) {
 	flags.StringVar(
 		&p.NodeProfile, "vpc-node-profile", "", "Image ID(command: ibmcloud vsi profiles)",
 	)
-	flags.IntVar(
-		&p.Nodes, "vpc-nodes", 3, "Numbers of workers in the k8s cluster",
-	)
 	flags.StringVar(
 		&p.KubeVersion, "vpc-kube-version", "", "Image ID(command: ibmcloud kubernetes version)",
 	)
