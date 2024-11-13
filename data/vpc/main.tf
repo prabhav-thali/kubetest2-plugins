@@ -76,7 +76,7 @@ module "master" {
 module "workers" {
   source                    = "./node"
   count                     = var.workers_count
-  node_name                 = "${var.cluster_name}-worker"
+  node_name                 = "${var.cluster_name}-worker-${count.index}"
   node_instance_template_id = ibm_is_instance_template.node_template.id
   resource_group = data.ibm_resource_group.default_group.id
 }
@@ -85,7 +85,7 @@ resource "null_resource" "wait-for-master-completes" {
   connection {
     type = "ssh"
     user = "root"
-    host = module.master.public_ips[0][0]
+    host = module.master.public_ips
     private_key = file(var.ssh_private_key)
     timeout = "20m"
   }
@@ -101,7 +101,7 @@ resource "null_resource" "wait-for-workers-completes" {
   connection {
     type = "ssh"
     user = "root"
-    host = module.workers.public_ips[count.index][0]
+    host = module.workers[count.index].public_ip
     private_key = file(var.ssh_private_key)
     timeout = "15m"
   }
