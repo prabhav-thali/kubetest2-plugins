@@ -6,21 +6,21 @@ output "region" { value = var.region }
 output "zone" { value = var.zone }
 output "resource_group_id" { value = data.ibm_resource_group.default_group.id }
 output "masters" {
-  value = module.master.public_ips[*][0].external_ip
+  value = module.master.public_ips[*][0]
   description = "k8s master node IP addresses"
 }
 
 output "workers" {
-  value = module.workers.public_ips[*][0].external_ip
+  value = module.workers.public_ips[*][0]
   description = "k8s worker node IP addresses"
 }
 
 output "masters_private" {
-  value = module.master.private_ips[*][0].ip_address
+  value = module.master.private_ips[*][0]
   description = "k8s master nodes private IP addresses"
 }
 
 output "workers_private" {
-  value = module.workers.private_ips[*][0].ip_address
+  value = module.workers.private_ips[*][0]
   description = "k8s worker nodes private IP addresses"
 }

@@ -85,7 +85,7 @@ resource "null_resource" "wait-for-master-completes" {
   connection {
     type = "ssh"
     user = "root"
-    host = module.master.addresses[0][0].external_ip
+    host = module.master.public_ips[0][0]
     private_key = file(var.ssh_private_key)
     timeout = "20m"
   }
@@ -101,7 +101,7 @@ resource "null_resource" "wait-for-workers-completes" {
   connection {
     type = "ssh"
     user = "root"
-    host = module.workers.public_ips[count.index][0].external_ip
+    host = module.workers.public_ips[count.index][0]
     private_key = file(var.ssh_private_key)
     timeout = "15m"
   }
