@@ -50,7 +50,6 @@ data "ibm_is_ssh_key" "ssh_key" {
   name       = var.ssh_key_name
 }
 
-
 resource "ibm_is_instance_template" "node_template" {
   name    = "${var.cluster_name}-node-template"
   image   = data.ibm_is_image.node_image.id
@@ -85,7 +84,7 @@ resource "null_resource" "wait-for-master-completes" {
   connection {
     type = "ssh"
     user = "root"
-    host = module.master.public_ip
+    host = module.master[*].public_ip
     private_key = file(var.ssh_private_key)
     timeout = "20m"
   }

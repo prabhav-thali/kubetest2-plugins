@@ -6,7 +6,7 @@ output "region" { value = var.region }
 output "zone" { value = var.zone }
 output "resource_group_id" { value = data.ibm_resource_group.default_group.id }
 output "masters" {
-  value = module.master.public_ip
+  value = module.master[*].public_ip
   description = "k8s master node IP addresses"
 }
 
@@ -16,7 +16,7 @@ output "workers" {
 }
 
 output "masters_private" {
-  value = module.master.private_ip
+  value = module.master[*].private_ip
   description = "k8s master nodes private IP addresses"
 }
 
