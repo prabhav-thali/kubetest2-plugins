@@ -30,7 +30,7 @@ variable "vpc_name" {
 variable "subnet_name" {
   type        = string
   description = "(optional) Specify existing subnet name. If none is provided, it will create a new subnet named {cluster_name}-subnet. This must be provided if vpc_name has been set"
-  default     = ""
+  default     = "lozsubnet"
 }
 
 # amd64: ibm-ubuntu-20-04-3-minimal-amd64-1
