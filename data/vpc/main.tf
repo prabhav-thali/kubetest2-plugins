@@ -84,7 +84,7 @@ resource "null_resource" "wait-for-master-completes" {
   connection {
     type = "ssh"
     user = "root"
-    host = module.master[*].public_ip
+    host = module.master.public_ip
     private_key = file(var.ssh_private_key)
     timeout = "20m"
   }
