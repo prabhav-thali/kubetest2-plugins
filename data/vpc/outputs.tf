@@ -1,7 +1,6 @@
 output "vpc_id" { value = local.vpc_id }
 output "ssh_key_id" { value = data.ibm_is_ssh_key.ssh_key.id }
 output "subnet_id" { value = local.subnet_id }
-output "node_name" { value = "${var.cluster_name}-node-${length(module.nodes) - 1}" }
 output "security_group_id" { value = local.security_group_id }
 output "region" { value = var.region }
 output "zone" { value = var.zone }
@@ -12,7 +11,7 @@ output "masters" {
 }
 
 output "workers" {
-  value = module.workers.private_ips[*][0].external_ip
+  value = module.workers.public_ips[*][0].external_ip
   description = "k8s worker node IP addresses"
 }
 

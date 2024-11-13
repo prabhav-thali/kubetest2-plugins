@@ -101,7 +101,7 @@ resource "null_resource" "wait-for-workers-completes" {
   connection {
     type = "ssh"
     user = "root"
-    host = module.workers.addresses[count.index][0].external_ip
+    host = module.workers.public_ips[count.index][0].external_ip
     private_key = file(var.ssh_private_key)
     timeout = "15m"
   }

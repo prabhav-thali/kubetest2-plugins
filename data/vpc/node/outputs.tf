@@ -4,8 +4,8 @@
 #
 
 output "public_ips" {
-  value = ibm_is_floating_ip.*.address
+  value = ibm_is_floating_ip.node.address
 }
 output "private_ips" {
-  value = ibm_is_instance.*.primary_network_interface.0.primary_ip.0.address
+  value = ibm_is_instance.node.primary_network_interface.0.primary_ip.0.address
 }
