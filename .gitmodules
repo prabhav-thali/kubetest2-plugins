@@ -1,3 +1,4 @@
 [submodule "data/k8s-ansible"]
 	path = data/k8s-ansible
 	url = https://github.com/prabhav-thali/k8s-ansible
+	branch = deployer-s390x
