@@ -32,7 +32,13 @@ func (p *Provider) BindFlags(flags *pflag.FlagSet) {
 		&p.Apikey, "vpc-api-key", "", "IBM Cloud API Key used for accessing the APIs",
 	)
 	flags.StringVar(
-		&p.SSHKey, "vpc-ssh-key", "", "VPC SSH Key to authenticate LPARs",
+		&p.SSHKey, "vpc-ssh-key", "", "VPC SSH Key to authenticate VSIs",
+	)
+	flags.StringVar(
+		&p.DNSName, "vpc-dns", "", "IBM Cloud DNS name",
+	)
+	flags.StringVar(
+		&p.DNSZone, "vpc-dns-zone", "", "IBM Cloud DNS Zone name",
 	)
 	flags.StringVar(
 		&p.Region, "vpc-region", "", "IBM Cloud VPC region name",
