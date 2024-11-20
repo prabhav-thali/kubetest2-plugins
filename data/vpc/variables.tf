@@ -33,6 +33,15 @@ variable "subnet_name" {
   default     = ""
 }
 
+variable "vpc_dns" {
+  description = "IBM Cloud VPC Private DNS name"
+}
+
+variable "vpc_dns_zone" {
+  description = "IBM Cloud VPC Private DNS Zone Name"
+  default = "k8s.test"
+}
+
 # amd64: ibm-ubuntu-20-04-3-minimal-amd64-1
 # s390x: ibm-ubuntu-20-04-2-minimal-s390x-1
 variable "node_image" {

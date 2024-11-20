@@ -2,6 +2,8 @@ package vpc
 
 type TFVars struct {
 	Apikey        string  `json:"ibmcloud_api_key,omitempty"`
+	DNSName       string  `json:"vpc_dns"`
+	DNSZone       string  `json:"vpc_dns_zone"`
 	SSHKey        string  `json:"ssh_key_name"`
 	ClusterName   string  `json:"cluster_name"`
 	Region        string  `json:"region"`
