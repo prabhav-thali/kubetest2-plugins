@@ -62,7 +62,6 @@ resource "ibm_is_instance_template" "node_template" {
   primary_network_interface {
     subnet          = local.subnet_id
     security_groups = [local.security_group_id]
-    dns_servers    = ["8.8.4.4", "8.8.8.8"]
   }
 }
 
