@@ -31,6 +31,7 @@ resource "ibm_is_subnet" "primary" {
   zone                     = var.zone
   resource_group = "${var.resource_group}"
   total_ipv4_address_count = 256
+  dns_servers     = ["8.8.4.4", "8.8.8.8"]
   public_gateway           = ibm_is_public_gateway.gateway.id
 }
 
@@ -54,6 +55,17 @@ resource "ibm_is_security_group_rule" "primary_ssh" {
   tcp {
     port_min = 22
     port_max = 22
+  }
+}
+
+resource "ibm_is_security_group_rule" "primary_k8s" {
+  group     = ibm_is_vpc.vpc.default_security_group
+  direction = "inbound"
+  remote    = "0.0.0.0/0"
+
+  tcp {
+    port_min = 80
+    port_max = 80
   }
 }
 
