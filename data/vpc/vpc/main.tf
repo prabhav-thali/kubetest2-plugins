@@ -31,7 +31,6 @@ resource "ibm_is_subnet" "primary" {
   zone                     = var.zone
   resource_group = "${var.resource_group}"
   total_ipv4_address_count = 256
-  dns_servers     = ["8.8.4.4", "8.8.8.8"]
   public_gateway           = ibm_is_public_gateway.gateway.id
 }
 
