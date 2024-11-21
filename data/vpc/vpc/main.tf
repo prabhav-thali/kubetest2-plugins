@@ -85,7 +85,7 @@ resource "ibm_is_security_group_rule" "primary_api_server" {
   remote    = "0.0.0.0/0"
 
   tcp {
-    port_min = 6443
-    port_max = 6443
+    port_min = 992
+    port_max = 992
   }
 }
