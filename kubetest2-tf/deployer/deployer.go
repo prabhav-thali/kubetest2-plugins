@@ -129,6 +129,7 @@ func New(opts types.Options) (types.Deployer, *pflag.FlagSet) {
 				Stager:          &build.NoopStager{},
 				Strategy:        "make",
 				TargetBuildArch: "linux/s390x",
+				COSCredType:     "shared",
 			},
 		},
 		RetryOnTfFailure: 1,
