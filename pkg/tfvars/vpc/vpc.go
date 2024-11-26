@@ -5,7 +5,6 @@ type TFVars struct {
 	DNSName       string  `json:"vpc_dns"`
 	DNSZone       string  `json:"vpc_dns_zone"`
 	SSHKey        string  `json:"ssh_key_name"`
-	ClusterName   string  `json:"cluster_name"`
 	Region        string  `json:"region"`
 	Zone          string  `json:"zone"`
 	ResourceGroup string  `json:"resource_group"`
